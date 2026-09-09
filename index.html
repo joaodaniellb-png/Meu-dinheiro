@@ -30,22 +30,147 @@
 </section>
 
 <section id="finance" class="hidden"><div class="card"><h2>💳 Finanças pessoais</h2><div class="sub">Controle salário, contas, alimentação e outros gastos.</div></div><div class="actions"><button class="primary" onclick="openModal('income')">＋ Entrada</button><button onclick="openModal('expense')">− Saída</button></div></section>
-<section id="goals" class="hidden"><div class="card"><h2>🎯 Metas</h2><div class="empty">A área de metas será adicionada em uma próxima versão.</div></div></section>
-</main>
+<section id="goals" class="hidden">
+  <div class="card">
+    <h2>🎯 Metas</h2>
+    <div class="sub">Crie seus objetivos e acompanhe seu progresso.</div>
+  </div>
 
-<nav><button class="active" onclick="show('home',this)">⌂ Início</button><button onclick="show('moto',this)">🏍️ 99 Moto</button><button onclick="show('finance',this)">💳 Finanças</button><button onclick="show('goals',this)">🎯 Metas</button></nav>
+  <div class="actions">
+    <button class="primary" onclick="openGoalModal()">＋ Criar meta</button>
+  </div>
 
+  <div class="section">Minhas metas</div>
+  <div id="goalList"></div>
+</section>
+  <div class="card">
+    <h2>🎯 Minhas metas</h2>
+    <div class="sub">Organize seus objetivos e acompanhe seu progresso.</div>
+  </div>
+
+  <div class="actions">
+    <button class="primary" onclick="openGoalModal()">＋ Criar meta</button>
+  </div>
+
+  <div class="section">Minhas metas</div>
+  <div id="goalList"></div>
+</section>
 <div class="modal" id="modal"><div class="sheet"><h2 id="title">Novo lançamento</h2><label class="label">Descrição</label><input id="desc" placeholder="Ex.: Corridas do dia"><label class="label">Valor</label><input id="value" type="number" step="0.01" placeholder="0,00"><label class="label">Categoria</label><select id="category"><option>99 Moto</option><option>Combustível</option><option>Salário</option><option>Alimentação</option><option>Contas</option><option>Manutenção</option><option>Outros</option></select><div class="row"><button onclick="closeModal()">Cancelar</button><button class="primary" onclick="save()">Salvar</button></div></div></div>
 
-<script>
+</div>
+
+<div class="modal" id="goalModal">
+  <div class="sheet">
+    <h2 id="goalTitle">Criar meta</h2>
+
+    <label class="label">Nome da meta</label>
+    <input id="goalName" placeholder="Ex.: Comprar uma moto">
+
+    <label class="label">Valor desejado</label>
+    <input id="goalTarget" type="number" step="0.01" placeholder="0,00">
+
+    <label class="label">Quanto já guardou?</label>
+    <input id="goalSaved" type="number" step="0.01" placeholder="0,00">
+
+    <div class="row">
+      <button onclick="closeGoalModal()">Cancelar</button>
+      <button class="primary" onclick="saveGoal()">Salvar</button>
+    </div>
+  </div>
+</div>
+<div class="modal" id="goalModal">
+  <div class="sheet">
+    <h2>🎯 Criar meta</h2>
+
+    <label class="label">Nome da meta</label>
+    <input id="goalName" placeholder="Ex.: Comprar uma moto">
+
+    <label class="label">Valor desejado</label>
+    <input id="goalTarget" type="number" step="0.01" placeholder="0,00">
+
+    <label class="label">Valor já guardado</label>
+    <input id="goalSaved" type="number" step="0.01" placeholder="0,00">
+
+    <div class="row">
+      <button onclick="closeGoalModal()">Cancelar</button>
+      <button class="primary" onclick="saveGoal()">Salvar</button>
+    </div>
+  </div>
+</div>
+<script> <script>
 let data=JSON.parse(localStorage.getItem('meuDinheiro')||'[]'), type='';
+let goals=JSON.parse(localStorage.getItem('meuDinheiroMetas')||'[]');
 const money=n=>n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 function show(id,b){document.querySelectorAll('main>section').forEach(s=>s.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');render()}
 function openModal(t){type=t;document.getElementById('title').textContent={income:'Registrar entrada',expense:'Registrar saída',motoIncome:'Ganho da 99',fuel:'Combustível'}[t];document.getElementById('category').value=t==='fuel'?'Combustível':t==='motoIncome'?'99 Moto':'Outros';document.getElementById('modal').classList.add('open')}
 function closeModal(){document.getElementById('modal').classList.remove('open')}
+function openGoalModal(){
+  document.getElementById('goalModal').classList.add('open');
+}
+
+function closeGoalModal(){
+  document.getElementById('goalModal').classList.remove('open');
+}
+
+function saveGoal(){
+  let name=document.getElementById('goalName').value.trim();
+  let target=Number(document.getElementById('goalTarget').value);
+  let saved=Number(document.getElementById('goalSaved').value)||0;
+
+  if(!name||!target||target<=0){
+    return alert('Preencha o nome e o valor da meta.');
+  }
+
+  if(saved<0||saved>target){
+    return alert('O valor guardado deve estar entre R$ 0,00 e o valor da meta.');
+  }
+
+  goals.unshift({name,target,saved});
+
+  localStorage.setItem('meuDinheiroMetas',JSON.stringify(goals));
+
+  document.getElementById('goalName').value='';
+  document.getElementById('goalTarget').value='';
+  document.getElementById('goalSaved').value='';
+
+  closeGoalModal();
+  renderGoals();
+}
+
+function renderGoals(){
+  let list=document.getElementById('goalList');
+
+  if(!list)return;
+
+  list.innerHTML=goals.length?goals.map((g,index)=>{
+    let percent=Math.min(100,(g.saved/g.target)*100);
+
+    return `
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <b>${g.name}</b>
+          <b class="green">${percent.toFixed(0)}%</b>
+        </div>
+
+        <div class="sub" style="margin-top:10px">
+          ${money(g.saved)} de ${money(g.target)}
+        </div>
+
+        <div style="background:var(--card2);height:10px;border-radius:10px;margin-top:12px;overflow:hidden">
+          <div style="background:var(--green);width:${percent}%;height:100%;border-radius:10px"></div>
+        </div>
+
+        <div class="sub" style="margin-top:10px">
+          Falta ${money(Math.max(0,g.target-g.saved))}
+        </div>
+      </div>
+    `;
+  }).join(''):'<div class="card"><div class="empty">Nenhuma meta criada ainda.</div></div>';
+}  
 function save(){let desc=document.getElementById('desc').value.trim(),value=Number(document.getElementById('value').value);if(!desc||!value)return alert('Preencha descrição e valor.');let income=type!=='expense'&&type!=='fuel';data.unshift({desc,value,type:income?'income':'expense',category:document.getElementById('category').value,date:new Date().toLocaleDateString('pt-BR'),moto:type==='motoIncome'||type==='fuel'});localStorage.setItem('meuDinheiro',JSON.stringify(data));document.getElementById('desc').value='';document.getElementById('value').value='';closeModal();render()}
 function rows(a){return a.length?a.slice(0,15).map(x=>`<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)"><div><b>${x.desc}</b><div class="sub">${x.category} · ${x.date}</div></div><b class="${x.type==='income'?'green':'red'}">${x.type==='income'?'+':'−'} ${money(x.value)}</b></div>`).join(''):'<div class="empty">Nenhum lançamento ainda.</div>'}
 function render(){let i=data.filter(x=>x.type==='income').reduce((s,x)=>s+x.value,0),e=data.filter(x=>x.type==='expense').reduce((s,x)=>s+x.value,0);balance.textContent=money(i-e);income.textContent=money(i);expense.textContent=money(e);list.innerHTML=rows(data);let mi=data.filter(x=>x.moto&&x.type==='income').reduce((s,x)=>s+x.value,0),me=data.filter(x=>x.moto&&x.type==='expense').reduce((s,x)=>s+x.value,0);motoIncome.textContent=money(mi);motoExpense.textContent=money(me);motoProfit.textContent=money(mi-me);profit.textContent=money(mi-me);motoList.innerHTML=rows(data.filter(x=>x.moto))}
 render();
+renderGoals();
 </script>
 </body></html>
