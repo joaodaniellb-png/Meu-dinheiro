@@ -2,48 +2,50 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b0b0d">
 <link rel="manifest" href="manifest.json">
 <title>Meu Dinheiro</title>
 <style>
-:root{--bg:#0b0b0d;--card:#17171b;--card2:#202027;--text:#f5f5f7;--muted:#9b9ba5;--green:#65d391;--red:#ff7d86;--line:#2b2b33}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{max-width:520px;margin:auto;padding:24px 18px 90px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-h1{font-size:25px;margin:0}.sub{color:var(--muted);font-size:13px;margin-top:5px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;margin-bottom:14px}
-.label{color:var(--muted);font-size:13px}.balance{font-size:34px;font-weight:750;margin:8px 0 18px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mini{background:var(--card2);border-radius:15px;padding:13px}.mini strong{display:block;font-size:18px;margin-top:6px}
-.green{color:var(--green)}.red{color:var(--red)}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{border:0;border-radius:14px;padding:15px;font-weight:700;font-size:14px;background:var(--card2);color:var(--text)}.btn.primary{background:var(--text);color:#111}
-.section-title{font-size:17px;font-weight:700;margin:22px 0 10px}.empty{color:var(--muted);font-size:14px;text-align:center;padding:18px 0}
-nav{position:fixed;bottom:0;left:0;right:0;background:#111116ee;backdrop-filter:blur(15px);border-top:1px solid var(--line);display:flex;justify-content:center;gap:35px;padding:14px 10px calc(14px + env(safe-area-inset-bottom));font-size:12px;color:var(--muted)}
-nav span:first-child{color:var(--text)}
-.modal{display:none;position:fixed;inset:0;background:#000b;align-items:flex-end;justify-content:center}.modal.open{display:flex}.sheet{width:100%;max-width:520px;background:var(--card);border-radius:24px 24px 0 0;padding:22px}
-input,select{width:100%;background:var(--card2);border:1px solid var(--line);color:var(--text);padding:14px;border-radius:12px;margin:7px 0 12px;font-size:16px}
-.row{display:flex;gap:10px}.row>*{flex:1}
+:root{--bg:#0b0b0d;--card:#17171b;--card2:#222229;--text:#f5f5f7;--muted:#9b9ba5;--green:#65d391;--red:#ff7d86;--line:#303039}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:520px;margin:auto;padding:24px 18px 100px}h1{margin:0;font-size:26px}.sub,.label{color:var(--muted)}.sub{margin-top:5px}.top{display:flex;justify-content:space-between;margin-bottom:24px}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px;margin-bottom:14px}.balance,.stat{font-size:35px;font-weight:800;margin:8px 0 18px}.stat{font-size:30px}.grid,.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mini{background:var(--card2);border-radius:15px;padding:13px}.mini strong{display:block;font-size:18px;margin-top:6px}.green{color:var(--green)}.red{color:var(--red)}button{border:0;border-radius:14px;padding:15px;font-weight:700;font-size:14px;background:var(--card2);color:var(--text)}button.primary{background:var(--text);color:#111}.section{font-size:18px;font-weight:750;margin:24px 0 10px}.hidden{display:none}nav{position:fixed;bottom:0;left:0;right:0;background:#111116ee;backdrop-filter:blur(15px);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:14px 6px calc(14px + env(safe-area-inset-bottom))}nav button{background:none;padding:5px;color:var(--muted);font-size:12px}nav button.active{color:white}.modal{display:none;position:fixed;inset:0;background:#000b;align-items:flex-end}.modal.open{display:flex}.sheet{width:100%;max-width:520px;background:var(--card);border-radius:24px 24px 0 0;padding:22px}input,select{width:100%;padding:14px;margin:7px 0 12px;background:var(--card2);color:white;border:1px solid var(--line);border-radius:12px;font-size:16px}.row{display:flex;gap:10px}.row>*{flex:1}.empty{text-align:center;color:var(--muted);padding:16px}
 </style>
 </head>
 <body>
 <main>
 <div class="top"><div><h1>Meu Dinheiro</h1><div class="sub">Seu dinheiro, organizado.</div></div><div>🖤</div></div>
-<section class="card">
-<div class="label">Saldo disponível</div><div class="balance" id="balance">R$ 0,00</div>
-<div class="grid"><div class="mini"><span class="label">Entradas</span><strong class="green" id="income">R$ 0,00</strong></div><div class="mini"><span class="label">Saídas</span><strong class="red" id="expense">R$ 0,00</strong></div></div>
+
+<section id="home">
+<div class="card"><div class="label">Saldo disponível</div><div class="balance" id="balance">R$ 0,00</div><div class="grid"><div class="mini"><span class="label">Entradas</span><strong class="green" id="income">R$ 0,00</strong></div><div class="mini"><span class="label">Saídas</span><strong class="red" id="expense">R$ 0,00</strong></div></div></div>
+<div class="card"><div class="label">🏍️ Lucro da 99 no mês</div><div class="balance" id="profit">R$ 0,00</div><div class="sub">Ganhos menos combustível e outros gastos.</div></div>
+<div class="actions"><button class="primary" onclick="openModal('income')">＋ Registrar ganho</button><button onclick="openModal('expense')">− Registrar gasto</button></div>
+<div class="section">Últimos lançamentos</div><div class="card" id="list"></div>
 </section>
-<section class="card"><div class="label">🏍️ Lucro da 99 no mês</div><div class="balance" id="profit">R$ 0,00</div><div class="sub">Ganhos menos combustível e outros gastos.</div></section>
-<div class="actions"><button class="btn primary" onclick="openModal('income')">＋ Registrar ganho</button><button class="btn" onclick="openModal('expense')">− Registrar gasto</button></div>
-<div class="section-title">Últimos lançamentos</div><section class="card" id="list"><div class="empty">Nenhum lançamento ainda.</div></section>
+
+<section id="moto" class="hidden">
+<div class="card"><div class="label">🏍️ Fechamento da 99</div><div class="stat" id="motoProfit">R$ 0,00</div><div class="sub">Seu lucro líquido registrado.</div></div>
+<div class="actions"><button class="primary" onclick="openModal('motoIncome')">＋ Ganho da 99</button><button onclick="openModal('fuel')">⛽ Combustível</button></div>
+<div class="section">Resumo da 99</div><div class="card"><div class="grid"><div class="mini"><span class="label">Ganhos</span><strong class="green" id="motoIncome">R$ 0,00</strong></div><div class="mini"><span class="label">Gastos</span><strong class="red" id="motoExpense">R$ 0,00</strong></div></div></div>
+<div class="section">Lançamentos da 99</div><div class="card" id="motoList"></div>
+</section>
+
+<section id="finance" class="hidden"><div class="card"><h2>💳 Finanças pessoais</h2><div class="sub">Controle salário, contas, alimentação e outros gastos.</div></div><div class="actions"><button class="primary" onclick="openModal('income')">＋ Entrada</button><button onclick="openModal('expense')">− Saída</button></div></section>
+<section id="goals" class="hidden"><div class="card"><h2>🎯 Metas</h2><div class="empty">A área de metas será adicionada em uma próxima versão.</div></div></section>
 </main>
-<nav><span>⌂ Início</span><span>🏍️ 99 Moto</span><span>💳 Finanças</span><span>🎯 Metas</span></nav>
-<div class="modal" id="modal"><div class="sheet"><h2 id="modalTitle">Novo lançamento</h2><label class="label">Descrição</label><input id="desc" placeholder="Ex.: Corridas do dia"><label class="label">Valor</label><input id="value" type="number" step="0.01" placeholder="0,00"><label class="label">Categoria</label><select id="category"><option>99 Moto</option><option>Salário</option><option>Combustível</option><option>Alimentação</option><option>Contas</option><option>Outros</option></select><div class="row"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn primary" onclick="save()">Salvar</button></div></div></div>
+
+<nav><button class="active" onclick="show('home',this)">⌂ Início</button><button onclick="show('moto',this)">🏍️ 99 Moto</button><button onclick="show('finance',this)">💳 Finanças</button><button onclick="show('goals',this)">🎯 Metas</button></nav>
+
+<div class="modal" id="modal"><div class="sheet"><h2 id="title">Novo lançamento</h2><label class="label">Descrição</label><input id="desc" placeholder="Ex.: Corridas do dia"><label class="label">Valor</label><input id="value" type="number" step="0.01" placeholder="0,00"><label class="label">Categoria</label><select id="category"><option>99 Moto</option><option>Combustível</option><option>Salário</option><option>Alimentação</option><option>Contas</option><option>Manutenção</option><option>Outros</option></select><div class="row"><button onclick="closeModal()">Cancelar</button><button class="primary" onclick="save()">Salvar</button></div></div></div>
+
 <script>
-let type='income', data=JSON.parse(localStorage.getItem('meuDinheiro')||'[]');
+let data=JSON.parse(localStorage.getItem('meuDinheiro')||'[]'), type='';
 const money=n=>n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-function openModal(t){type=t;document.getElementById('modalTitle').textContent=t==='income'?'Registrar ganho':'Registrar gasto';document.getElementById('modal').classList.add('open');document.getElementById('desc').focus()}
+function show(id,b){document.querySelectorAll('main>section').forEach(s=>s.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');render()}
+function openModal(t){type=t;document.getElementById('title').textContent={income:'Registrar entrada',expense:'Registrar saída',motoIncome:'Ganho da 99',fuel:'Combustível'}[t];document.getElementById('category').value=t==='fuel'?'Combustível':t==='motoIncome'?'99 Moto':'Outros';document.getElementById('modal').classList.add('open')}
 function closeModal(){document.getElementById('modal').classList.remove('open')}
-function save(){let desc=document.getElementById('desc').value.trim(), value=Number(document.getElementById('value').value), category=document.getElementById('category').value;if(!desc||!value)return alert('Preencha a descrição e o valor.');data.unshift({type,desc,value,category,date:new Date().toLocaleDateString('pt-BR')});localStorage.setItem('meuDinheiro',JSON.stringify(data));document.getElementById('desc').value='';document.getElementById('value').value='';closeModal();render()}
-function render(){let inc=data.filter(x=>x.type==='income').reduce((a,x)=>a+x.value,0),exp=data.filter(x=>x.type==='expense').reduce((a,x)=>a+x.value,0);document.getElementById('income').textContent=money(inc);document.getElementById('expense').textContent=money(exp);document.getElementById('balance').textContent=money(inc-exp);let gains=data.filter(x=>x.type==='income'&&x.category==='99 Moto').reduce((a,x)=>a+x.value,0),costs=data.filter(x=>x.type==='expense'&&(x.category==='Combustível'||x.category==='99 Moto')).reduce((a,x)=>a+x.value,0);document.getElementById('profit').textContent=money(gains-costs);document.getElementById('list').innerHTML=data.length?data.slice(0,8).map(x=>`<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)"><div><b>${x.desc}</b><div class="sub">${x.category} · ${x.date}</div></div><b class="${x.type==='income'?'green':'red'}">${x.type==='income'?'+':'−'} ${money(x.value)}</b></div>`).join(''):'<div class="empty">Nenhum lançamento ainda.</div>'}
+function save(){let desc=document.getElementById('desc').value.trim(),value=Number(document.getElementById('value').value);if(!desc||!value)return alert('Preencha descrição e valor.');let income=type!=='expense'&&type!=='fuel';data.unshift({desc,value,type:income?'income':'expense',category:document.getElementById('category').value,date:new Date().toLocaleDateString('pt-BR'),moto:type==='motoIncome'||type==='fuel'});localStorage.setItem('meuDinheiro',JSON.stringify(data));document.getElementById('desc').value='';document.getElementById('value').value='';closeModal();render()}
+function rows(a){return a.length?a.slice(0,15).map(x=>`<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)"><div><b>${x.desc}</b><div class="sub">${x.category} · ${x.date}</div></div><b class="${x.type==='income'?'green':'red'}">${x.type==='income'?'+':'−'} ${money(x.value)}</b></div>`).join(''):'<div class="empty">Nenhum lançamento ainda.</div>'}
+function render(){let i=data.filter(x=>x.type==='income').reduce((s,x)=>s+x.value,0),e=data.filter(x=>x.type==='expense').reduce((s,x)=>s+x.value,0);balance.textContent=money(i-e);income.textContent=money(i);expense.textContent=money(e);list.innerHTML=rows(data);let mi=data.filter(x=>x.moto&&x.type==='income').reduce((s,x)=>s+x.value,0),me=data.filter(x=>x.moto&&x.type==='expense').reduce((s,x)=>s+x.value,0);motoIncome.textContent=money(mi);motoExpense.textContent=money(me);motoProfit.textContent=money(mi-me);profit.textContent=money(mi-me);motoList.innerHTML=rows(data.filter(x=>x.moto))}
 render();
 </script>
 </body></html>

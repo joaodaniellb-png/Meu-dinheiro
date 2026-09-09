@@ -1,9 +1,1 @@
-{
-  "name": "Meu Dinheiro",
-  "short_name": "Meu Dinheiro",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#0b0b0d",
-  "theme_color": "#0b0b0d",
-  "icons": []
-}
+{"name": "Meu Dinheiro", "short_name": "Meu Dinheiro", "start_url": "./index.html", "display": "standalone", "background_color": "#0b0b0d", "theme_color": "#0b0b0d"}
